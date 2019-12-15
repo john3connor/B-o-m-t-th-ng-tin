@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .button {
+            background-color: #eaf5fd;
+            color: #1da1f2;
+            padding: 14px 20px;
+            border: none;
+            width: 30%;
+            margin: 0 auto;
+            margin-top: 1.5rem;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .button:hover {
+            background-color: #1da1f2;
+            color: #eaf5fd;
+        }
+
+        .button:focus {
+            border-color: #1da1f2;
+            box-shadow: 0 0 0 2px #fff, 0 0 0 4px #71c9f8;
+            outline: none;
+        }
+
+        .button:active {
+            background-color: #006dbf;
+            border-color: #006dbf;
+            box-shadow: 0 0 0 2px #fff, 0 0 0 4px #1da1f2;
+            outline: none;
+        }
+
+        .buttonactive {
+            background-color: #1da1f2;
+            color: white;
+            padding: 14px 20px;
+            border: none;
+            width: 30%;
+            margin: 0 auto;
+            margin-top: 1.5rem;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .buttonactive:hover {
+            background-color: #006dbf;
+            color: #eaf5fd;
+        }
+
+        .buttonactive:focus {
+            border-color: #1da1f2;
+            box-shadow: 0 0 0 2px #fff, 0 0 0 4px #71c9f8;
+            outline: none;
+        }
+
+        .buttonactive:active {
+            background-color: #006dbf;
+            border-color: #006dbf;
+            box-shadow: 0 0 0 2px #fff, 0 0 0 4px #1da1f2;
+            outline: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid" style="width: 50%">
+        <form class="mt-5">
+            <div class="row">
+                <h4><strong>Input Ciphertext</strong></h4>
+                <textarea class="form-control mt-2" id="ctext" rows="5" placeholder="Input Ciphertext"></textarea>
+                <button type="submit" id="button" class="button">Submit</button>
+            </div>
+        </form>
+
+        <div class="row mt-4">
+            <h4 style="width: 100%;"><strong>Key</strong></h4>
+            <p id="key"></p>
+        </div>
+
+        <div class="row mt-4">
+            <h4><strong>Plaintext</strong></h4>
+            <p id="text" style="word-break: break-all;"></p>
+        </div>
+
+</body>
+
+</html>
+
+<script>
+    $(document).ready(function () {
+        $('form').on('submit', function (event) {
+            $.ajax({
+                data: {
+                    ctext: $('#ctext').val(),
+                },
+                type: 'POST',
+                url: '/process'
+            })
+                .done(function (data) {
+                    $('#key').text(data.key).show();
+                    $('#text').text(data.text).show();
+                });
+            event.preventDefault();
+        });
+    });
+
+    M.textareaAutoResize($('#ctext'));
+
+    $(document).on('input', ".form-control", function () {
+        var button = false;
+        if ($(this).val() !== "") {
+            button = true;
+        }
+
+        if (button) $("#button").removeClass().addClass('buttonactive');
+        else $("#button").removeClass().addClass('button');
+    });
+
+</script>
