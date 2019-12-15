@@ -11,7 +11,7 @@ def ic_calculate(ctext):
     max_avgIC = 0
     max_KLEN = 0
     # Calculate the AVG I.C.
-    for KLEN in range(1, 20):
+    for KLEN in range(1, 15):
         list_output = []
         for count in range(0, KLEN):
             output = ctext[count]
